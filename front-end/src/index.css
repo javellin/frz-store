@@ -1,0 +1,10 @@
+body {
+  background-color: #f5f5f5;
+  margin: 0
+}
+
+.root {
+  padding-left: 30px;
+  padding-right: 30px;
+  padding-top: 10vh;
+}

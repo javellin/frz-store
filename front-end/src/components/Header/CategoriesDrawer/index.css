@@ -1,0 +1,13 @@
+.drawer {
+  width: 300px;
+  padding: 15px 0 10px 0;
+}
+
+.drawer__close-button {
+  margin-bottom: 20px;
+  padding-left: 15px;
+}
+
+.drawer__header-menu {
+  flex: 1 0 0;
+}
