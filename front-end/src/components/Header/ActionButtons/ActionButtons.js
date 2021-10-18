@@ -9,6 +9,8 @@ import IconButton from "@mui/material/IconButton";
 import PersonOutlineIcon from "@mui/icons-material/PersonOutline";
 import SearchIcon from "@mui/icons-material/Search";
 
+import { ShoppingCartDrawer } from "components/ShoppingCartDrawer";
+
 import "./index.css";
 
 const StyledBadge = styled(Badge)(({ theme }) => ({
@@ -23,6 +25,12 @@ const StyledBadge = styled(Badge)(({ theme }) => ({
 export const ActionButtons = () => {
   const cartQuantity = useSelector((state) => state.shop.cartQuantity);
 
+  const [isShoppingCartOpen, setIsShoppingCartOpen] = React.useState(false);
+
+  const onClickCloseShoppingCart = () => {
+    setIsShoppingCartOpen(false);
+  };
+
   const actions = [
     { id: 1, icon: PersonOutlineIcon },
     { id: 2, icon: SearchIcon },
@@ -33,17 +41,28 @@ export const ActionButtons = () => {
           <ShoppingCartIcon />
         </StyledBadge>
       ),
+      onClick: () => {
+        setIsShoppingCartOpen(true);
+      },
     },
   ];
 
   return (
     <Toolbar>
+      {isShoppingCartOpen && (
+        <ShoppingCartDrawer
+          open={isShoppingCartOpen}
+          onClose={onClickCloseShoppingCart}
+        />
+      )}
       {actions.map((action) => (
         <IconButton
+          key={action.id}
           size="large"
           edge="start"
           color="inherit"
           aria-label="menu"
+          onClick={action.onClick}
           sx={{ mr: 2 }}
         >
           {typeof action.icon === "function" ? (

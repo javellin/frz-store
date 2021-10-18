@@ -1,11 +1,13 @@
 import * as React from "react";
+
 import Toolbar from "@mui/material/Toolbar";
 import IconButton from "@mui/material/IconButton";
 import MenuIcon from "@mui/icons-material/Menu";
 
-import "./index.css";
 import { ActionButtons } from "./ActionButtons";
 import { CategoriesDrawer } from "./CategoriesDrawer";
+
+import "./index.css";
 
 export const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = React.useState(false);
@@ -21,11 +23,7 @@ export const Header = () => {
   return (
     <>
       {isMenuOpen && (
-        <CategoriesDrawer
-          open={isMenuOpen}
-          onOpen={onClickOpenMenu}
-          onClose={onClickCloseMenu}
-        />
+        <CategoriesDrawer open={isMenuOpen} onClose={onClickCloseMenu} />
       )}
       <div className="header">
         <Toolbar>

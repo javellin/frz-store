@@ -36,17 +36,51 @@ export const shopSlice = createSlice({
     },
     addToCart: (state, action) => {
       const newCartItems = [...state.cartItems];
-      newCartItems.push(action.payload);
+      const item = action.payload;
+      item.quantity = 1;
+      newCartItems.push(item);
       return {
         ...state,
         cartItems: newCartItems,
         cartQuantity: newCartItems.length,
       };
     },
+    incrementProductQuantity: (state, action) => {
+      const itemMatch = state.cartItems.find(
+        (product) => product._id === action.payload
+      );
+
+      itemMatch.quantity++;
+    },
+    decrementProductQuantity: (state, action) => {
+      const itemMatch = state.cartItems.find(
+        (product) => product._id === action.payload
+      );
+
+      itemMatch.quantity =
+        itemMatch.quantity === 1 ? 1 : itemMatch.quantity - 1;
+    },
+    removeProductFromCart: (state, action) => {
+      let newCartItems = [...state.cartItems];
+
+      newCartItems = newCartItems.filter((item) => item._id !== action.payload);
+
+      return {
+        ...state,
+        cartItems: newCartItems,
+        cartQuantity: newCartItems.length
+      };
+    },
   },
 });
 
-export const { updateShopItems, filterByCategory, addToCart } =
-  shopSlice.actions;
+export const {
+  updateShopItems,
+  filterByCategory,
+  addToCart,
+  incrementProductQuantity,
+  decrementProductQuantity,
+  removeProductFromCart,
+} = shopSlice.actions;
 
 export default shopSlice.reducer;

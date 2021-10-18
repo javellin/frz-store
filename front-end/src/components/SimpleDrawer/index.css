@@ -1,0 +1,18 @@
+.simple-drawer {
+  padding: 15px 0 10px 0;
+  overflow:hidden;
+  min-width: 290px;
+}
+
+.simple-drawer__close-button {
+  margin-bottom: 20px;
+  padding-left: 15px;
+}
+
+.simple-drawer__header-menu {
+  flex: 1 0 0;
+}
+
+.simple-drawer__title {
+  margin: 18px;
+}
