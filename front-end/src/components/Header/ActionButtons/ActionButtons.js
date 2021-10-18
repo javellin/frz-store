@@ -1,15 +1,21 @@
 import * as React from "react";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 
 import Badge from "@mui/material/Badge";
 import { styled } from "@mui/material/styles";
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 import Toolbar from "@mui/material/Toolbar";
 import IconButton from "@mui/material/IconButton";
-import PersonOutlineIcon from "@mui/icons-material/PersonOutline";
+import LoginIcon from "@mui/icons-material/Login";
+import LogoutIcon from "@mui/icons-material/Logout";
+import CloseIcon from "@mui/icons-material/Close";
 import SearchIcon from "@mui/icons-material/Search";
 
 import { ShoppingCartDrawer } from "components/ShoppingCartDrawer";
+
+import { setIsSearching } from "core/redux/features/shop/shopSlice";
+import { removeAuthToken } from "core/redux/features/auth/authSlice";
+import { warningToast } from "core/utils/notificationUtils";
 
 import "./index.css";
 
@@ -22,8 +28,13 @@ const StyledBadge = styled(Badge)(({ theme }) => ({
   },
 }));
 
-export const ActionButtons = () => {
+export const ActionButtons = ({ cleanSearchText }) => {
+  const dispatch = useDispatch();
+
   const cartQuantity = useSelector((state) => state.shop.cartQuantity);
+  const isSearching = useSelector((state) => state.shop.isSearching);
+  const shoppingCartItems = useSelector((state) => state.shop.cartItems);
+  const token = useSelector((state) => state.auth.token);
 
   const [isShoppingCartOpen, setIsShoppingCartOpen] = React.useState(false);
 
@@ -32,17 +43,36 @@ export const ActionButtons = () => {
   };
 
   const actions = [
-    { id: 1, icon: PersonOutlineIcon },
-    { id: 2, icon: SearchIcon },
     {
-      id: 3,
+      id: 1,
+      icon: () => (isSearching ? <CloseIcon /> : <SearchIcon />),
+      onClick: () => {
+        cleanSearchText();
+        dispatch(setIsSearching(!isSearching));
+      },
+    },
+    {
+      id: 2,
       icon: () => (
         <StyledBadge badgeContent={cartQuantity} color="secondary">
           <ShoppingCartIcon />
         </StyledBadge>
       ),
       onClick: () => {
-        setIsShoppingCartOpen(true);
+        shoppingCartItems.length
+          ? setIsShoppingCartOpen(!isSearching)
+          : warningToast(
+              "Your cart is empty, browse through the shop and find some items you'd like!"
+            );
+      },
+    },
+    {
+      id: 3,
+      icon: () => (token ? <LogoutIcon /> : <LoginIcon />),
+      onClick: () => {
+        token
+          ? dispatch(removeAuthToken())
+          : (window.location.href = "http://localhost/auth");
       },
     },
   ];

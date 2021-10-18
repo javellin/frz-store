@@ -1,10 +1,14 @@
+import React from "react";
 import { useSelector } from "react-redux";
+
+import { Typography, Divider } from "@mui/material";
+
 import { ProductItem } from "./ProductItem";
 
 import "./index.css";
-import { Typography, Divider } from "@mui/material";
 
 export const Home = () => {
+
   const selectedCategory = useSelector((state) => state.shop.selectedCategory);
   const filteredItems = useSelector((state) => state.shop.filteredItems);
 
@@ -16,10 +20,7 @@ export const Home = () => {
       </div>
       <div className="home-products">
         {filteredItems.map((item) => (
-          <ProductItem
-            key={item._id}
-            product={item}            
-          />
+          <ProductItem key={item._id} product={item} />
         ))}
       </div>
     </div>

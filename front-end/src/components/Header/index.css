@@ -22,3 +22,8 @@
   height: auto;
   width: 255px;
 }
+
+.header-user {
+  margin-right: 30px;
+  margin-top: 10px;
+}

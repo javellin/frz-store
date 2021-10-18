@@ -4,6 +4,7 @@ const initialState = {
   cartQuantity: 0,
   cartItems: [],
   items: [],
+  isSearching: false,
   filteredItems: [],
   selectedCategory: {
     id: "all",
@@ -68,7 +69,29 @@ export const shopSlice = createSlice({
       return {
         ...state,
         cartItems: newCartItems,
-        cartQuantity: newCartItems.length
+        cartQuantity: newCartItems.length,
+      };
+    },
+    setIsSearching: (state, action) => {
+      return {
+        ...state,
+        isSearching: action.payload,
+      };
+    },
+    filterByTextSearch: (state, action) => {
+      const newFilteredItems = state.items.filter((item) => {
+        if (state.selectedCategory.id !== "all") {
+          return (
+            item.label.includes(action.payload) &&
+            item.category.id === state.selectedCategory.id
+          );
+        }
+        return item.label.toLowerCase().includes(action.payload.toLowerCase());
+      });
+
+      return {
+        ...state,
+        filteredItems: newFilteredItems,
       };
     },
   },
@@ -81,6 +104,8 @@ export const {
   incrementProductQuantity,
   decrementProductQuantity,
   removeProductFromCart,
+  setIsSearching,
+  filterByTextSearch,
 } = shopSlice.actions;
 
 export default shopSlice.reducer;

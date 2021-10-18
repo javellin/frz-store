@@ -1,7 +1,7 @@
 import { getDbConnection } from "../db";
 
 export const fetchShopItemsRoute = {
-  path: "/api/shop/items",
+  path: "/store-api/shop/items",
   method: "get",
   handler: async (req, res) => {
     const db = getDbConnection("react-shop-db");

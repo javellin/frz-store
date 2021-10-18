@@ -1,12 +1,15 @@
-import { Home } from "pages/Home";
+import React from "react";
+import { ToastContainer } from 'react-toastify';
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import { useDispatch } from "react-redux";
 
 import { Header } from "components/Header";
 import { shopSagaActions } from "core/redux/features/shop/shopSagaActions";
 
+import { Home } from "pages/Home";
+
+import "react-toastify/dist/ReactToastify.css";
 import "./index.css";
-import React from "react";
 
 function App() {
   const dispatch = useDispatch();
@@ -17,9 +20,10 @@ function App() {
 
   return (
     <>
+      <ToastContainer />
       <Header />
       <div className="root">
-        <Router>
+        <Router basename={process.env.REACT_APP_BASENAME}>
           <Switch>
             <Route exact path="/">
               <Home />
